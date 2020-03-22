@@ -8,7 +8,6 @@
 # Description:       Run gotrue to provide authentication for NetlifyCMS
 ### END INIT INFO
 
-set -a
 [ -f /etc/default/gotrue ] && . /etc/default/gotrue
 
 SCRIPT=/go/src/github.com/netlify/gotrue/gotrue

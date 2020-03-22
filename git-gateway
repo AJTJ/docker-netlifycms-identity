@@ -8,7 +8,6 @@
 # Description:       Run git-gateway to provide authentication for NetlifyCMS
 ### END INIT INFO
 
-set -a
 [ -f /etc/default/git-gateway ] && . /etc/default/git-gateway
 
 export GITGATEWAY_DB_DRIVER=sqlite3

@@ -6,6 +6,13 @@ if [ $status -ne 0 ]; then
   exit $status
 fi
 
+if [ -f /root/.env ]
+then
+  echo "Setup has not been run yet, launching bash"
+  cd /root
+  exec bash
+fi
+
 service gotrue start
 status=$?
 if [ $status -ne 0 ]; then
