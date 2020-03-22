@@ -11,9 +11,6 @@ printf "export GOTRUE_JWT_SECRET=$JWT_SECRET\n" >> /etc/default/gotrue
 printf "export GOTRUE_DB_DATABASE_URL=\"$GOTRUE_DB_DATABASE_URL\"\n" >> /etc/default/gotrue
 printf "export GOTRUE_DISABLE_SIGNUP=$DISABLE_SIGNUP\n" >> /etc/default/gotrue
 printf "export GOTRUE_LOG_LEVEL=$LOG_LEVEL\n" >> /etc/default/gotrue
-printf "export GITGATEWAY_JWT_SECRET=$JWT_SECRET\n" >> /etc/default/gotrue
-printf "export GITGATEWAY_GITHUB_REPO=$NETLIFY_REPO\n" >> /etc/default/gotrue
-printf "export GITGATEWAY_GITHUB_ACCESS_TOKEN=$GITHUB_TOKEN\n" >> /etc/default/git-gateway
 printf "export GOTRUE_JWT_EXP=$JWT_EXP\n" >> /etc/default/gotrue
 printf "export GOTRUE_JWT_AUD=\"\"\n" >> /etc/default/gotrue
 printf "export GOTRUE_SITE_URL=$SITE_URL\n" >> /etc/default/gotrue
@@ -25,9 +22,13 @@ printf "export GOTRUE_MAILER_SUBJECTS_CONFIRMATION='"$CONFIRMATION_SUBJECT"'\n" 
 printf "export GOTRUE_MAILER_SUBJECTS_RECOVERY='"$RECOVERY_SUBJECT"'\n" >> /etc/default/gotrue
 
 . /etc/default/gotrue && \
+  cd /go/src/github.com/netlify/gotrue && \
   gotrue migrate && \
   gotrue admin createuser -i 00000000-0000-0000-0000-000000000000 $ADMIN_EMAIL $ADMIN_PASSWORD --superadmin && \
+  cd /root
 
+printf "export GITGATEWAY_JWT_SECRET=$JWT_SECRET\n" >> /etc/default/git-gateway
+printf "export GITGATEWAY_GITHUB_REPO=$NETLIFY_REPO\n" >> /etc/default/git-gateway
 printf "export GITGATEWAY_ROLES=\"$GATEWAY_ROLES\"\n" >> /etc/default/git-gateway
 printf "export GITGATEWAY_GITHUB_ACCESS_TOKEN=$GITHUB_TOKEN\n" >> /etc/default/git-gateway
 
@@ -36,3 +37,4 @@ rm .env
 
 service gotrue start
 service git-gateway start
+service nginx start

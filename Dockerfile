@@ -47,11 +47,19 @@ RUN echo "mariadb-server-5.5 mysql-server/root_password password netlifycms" > /
   cd git-gateway && \
   make deps && \
   make build && \
-  apt-get -y remove --purge build-essential wget && \
+  apt-get -y remove --purge build-essential wget git && \
   apt-get -y autoremove && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /usr/local/go && \
   rm -rf /go/pkg
+
+COPY index.html /usr/share/nginx/html/index.html
+COPY config.yml /usr/share/nginx/html/
+COPY nginx.conf /etc/nginx/sites-enabled/default
+
+VOLUME /var/lib/mysql
+
+EXPOSE 80/tcp
 
 ENTRYPOINT /root/entry.sh
