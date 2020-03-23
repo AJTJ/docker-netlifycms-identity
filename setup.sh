@@ -1,6 +1,7 @@
 #!/bin/sh
 . ./.env
 
+service mysql start
 # Setup your gotrue/git-gateway db and config based on .env values.
 mysql -u root -pnetlifycms -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '""${MARIADB_PASSWORD}""';"
 mysql -u root -p${MARIADB_PASSWORD} -e "CREATE DATABASE gotrue; CREATE USER 'gotrue'@'localhost' IDENTIFIED BY '""$GOTRUEDB_PASSWORD""'; GRANT ALL PRIVILEGES ON gotrue.* TO gotrue@localhost; FLUSH PRIVILEGES;"

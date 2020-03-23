@@ -1,11 +1,4 @@
 #!/bin/sh
-service mysql start
-status=$?
-if [ $status -ne 0 ]; then
-  echo "Failed to start mysql: $status"
-  exit $status
-fi
-
 if [ -f /root/.env ]
 then
   if [ -z "$AUTO_SETUP" ]
@@ -17,6 +10,13 @@ then
     cd /root
     exec ./setup.sh
   fi
+fi
+
+service mysql start
+status=$?
+if [ $status -ne 0 ]; then
+  echo "Failed to start mysql: $status"
+  exit $status
 fi
 
 service gotrue start
