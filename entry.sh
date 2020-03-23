@@ -8,9 +8,15 @@ fi
 
 if [ -f /root/.env ]
 then
-  echo "Setup has not been run yet, launching bash"
-  cd /root
-  exec bash
+  if [ -z "$AUTO_SETUP" ]
+  then
+    echo "Setup has not been run yet, launching bash"
+    cd /root
+    exec bash
+  else
+    cd /root
+    exec ./setup.sh
+  fi
 fi
 
 service gotrue start
