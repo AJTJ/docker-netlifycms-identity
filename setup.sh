@@ -42,6 +42,5 @@ mysql -u gotrue -p${GOTRUEDB_PASSWORD} gotrue -e "update users set confirmed_at 
 echo "Setup complete"
 rm .env
 
-service gotrue start
-service git-gateway start
-service nginx start
+cd /root
+./entry.sh

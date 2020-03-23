@@ -1,12 +1,6 @@
 FROM debian:stretch-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG NETLIFY_REPO="gasbuddy/netlify-example"
-ARG OPERATOR_TOKEN="super-secret-operator-token"
-ARG GITHUB_TOKEN="abcd"
-ARG GOTRUE_LOG_LEVEL=DEBUG
-ARG ADMIN_EMAIL=nobdody@test.com
-ARG ADMIN_PASSWORD="netlifycms"
 
 ENV GOROOT=/usr/local/go
 ENV GOPATH=$HOME/go
