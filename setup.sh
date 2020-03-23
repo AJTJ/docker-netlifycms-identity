@@ -29,8 +29,15 @@ printf "export GOTRUE_MAILER_SUBJECTS_RECOVERY='"$RECOVERY_SUBJECT"'\n" >> /etc/
 
 printf "export GITGATEWAY_JWT_SECRET=$JWT_SECRET\n" >> /etc/default/git-gateway
 printf "export GITGATEWAY_GITHUB_REPO=$NETLIFY_REPO\n" >> /etc/default/git-gateway
-printf "export GITGATEWAY_ROLES=\"$GATEWAY_ROLES\"\n" >> /etc/default/git-gateway
+if [ ! -z "$GATEWAY_ROLES" ]
+then
+  printf "export GITGATEWAY_ROLES=\"$GATEWAY_ROLES\"\n" >> /etc/default/git-gateway
+fi
 printf "export GITGATEWAY_GITHUB_ACCESS_TOKEN=$GITHUB_TOKEN\n" >> /etc/default/git-gateway
+
+SITE_HOST=`echo $SITE_URL | awk -F[/:] '{print $4}'`
+sed -i "s/example.com/$SITE_HOST/g" /etc/nginx/sites-enabled/default
+mysql -u root -p${GOTRUEDB_PASSWORD} -e "update users set confirmed_at = NOW();"
 
 echo "Setup complete"
 rm .env
