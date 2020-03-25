@@ -22,11 +22,10 @@ printf "export GOTRUE_SMTP_ADMIN_EMAIL=$SMTP_ADMIN_EMAIL\n" >> /etc/default/gotr
 printf "export GOTRUE_MAILER_SUBJECTS_CONFIRMATION='"$CONFIRMATION_SUBJECT"'\n" >> /etc/default/gotrue
 printf "export GOTRUE_MAILER_SUBJECTS_RECOVERY='"$RECOVERY_SUBJECT"'\n" >> /etc/default/gotrue
 
-while IFS='=' read -r name value ; do
-  if [[ $name == 'GOTRUE_EXTERNAL_'* ]]; then
-    printf "export $name=\"$value\"\n" >> /etc/default/gotrue
-  fi
-done < <(env)
+for v in `printenv | grep ^GOTRUE_`
+do
+    printf "export $v\n" >> /etc/default/gotrue
+done
 
 . /etc/default/gotrue && \
   cd /go/src/github.com/netlify/gotrue && \
