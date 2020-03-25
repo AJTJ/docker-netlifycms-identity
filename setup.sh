@@ -22,6 +22,12 @@ printf "export GOTRUE_SMTP_ADMIN_EMAIL=$SMTP_ADMIN_EMAIL\n" >> /etc/default/gotr
 printf "export GOTRUE_MAILER_SUBJECTS_CONFIRMATION='"$CONFIRMATION_SUBJECT"'\n" >> /etc/default/gotrue
 printf "export GOTRUE_MAILER_SUBJECTS_RECOVERY='"$RECOVERY_SUBJECT"'\n" >> /etc/default/gotrue
 
+while IFS='=' read -r name value ; do
+  if [[ $name == 'GOTRUE_EXTERNAL_'* ]]; then
+    printf "export $name=\"$value\"\n" >> /etc/default/gotrue
+  fi
+done < <(env)
+
 . /etc/default/gotrue && \
   cd /go/src/github.com/netlify/gotrue && \
   gotrue migrate && \
@@ -39,6 +45,7 @@ printf "export GITGATEWAY_GITHUB_ACCESS_TOKEN=$GITHUB_TOKEN\n" >> /etc/default/g
 SITE_HOST=`echo $SITE_URL | awk -F[/:] '{print $4}'`
 sed -i "s/example.com/$SITE_HOST/g" /etc/nginx/sites-enabled/default
 mysql -u gotrue -p${GOTRUEDB_PASSWORD} gotrue -e "update users set confirmed_at = NOW();"
+sed -i "s/GIT_CONTENT_BRANCH/${GIT_CONTENT_BRANCH:-master}/g" /usr/share/nginx/html/config.yml
 
 echo "Setup complete"
 rm .env

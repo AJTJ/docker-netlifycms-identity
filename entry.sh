@@ -1,4 +1,10 @@
 #!/bin/sh
+if [ ! -f /var/lib/mysql/mysql ] && [ -f /root/mysql-template ]
+then
+  mv /root/mysql-template/* /var/lib/mysql
+  rmdir /root/mysql-template
+fi
+
 if [ -f /root/.env ]
 then
   if [ -z "$AUTO_SETUP" ]
