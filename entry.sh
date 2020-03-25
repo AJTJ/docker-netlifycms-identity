@@ -1,8 +1,8 @@
 #!/bin/sh
 if [ ! -f /var/lib/mysql/mysql ] && [ -f /root/mysql-template ]
 then
-  mv /root/mysql-template/* /var/lib/mysql
-  rmdir /root/mysql-template
+  cp -rp /root/mysql-template/* /var/lib/mysql/
+  rm -rf /root/mysql-template
 fi
 
 if [ -f /root/.env ]
@@ -42,7 +42,7 @@ fi
 service nginx start
 status=$?
 if [ $status -ne 0 ]; then
-  echo "Failed to start git-gateway: $status"
+  echo "Failed to start nginx: $status"
   exit $status
 fi
 
