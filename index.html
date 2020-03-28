@@ -3,13 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager</title>
+  <title>Netlify CMS</title>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
-  <!-- Include the script that builds the page and powers Netlify CMS -->
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
-  <script>
+  <script src="https://unpkg.com/react@^16/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@^16/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/netlify-cms-app/dist/netlify-cms-app.js"></script>
+  <script data-plugins="transform-modules-umd" type="text/babel">
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on("init", user => {
         if (!user) {
@@ -19,6 +21,7 @@
         }
       });
     }
+    NetlifyCmsApp.init();
   </script>
 </body>
 </html>
